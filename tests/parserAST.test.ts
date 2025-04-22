@@ -34,17 +34,30 @@ test("parserAST", () => {
     
     // Add detailed logging at all levels of the tree
     console.log("\n--- AST Hierarchy ---");
-    function printTree(element: VEACTagElement, depth = 0) {
+    
+    // Use a stack to traverse the tree iteratively
+    const stack: Array<{element: VEACTagElement, depth: number}> = [{
+        element: ast.root,
+        depth: 0
+    }];
+
+    while (stack.length > 0) {
+        const {element, depth} = stack.pop()!;
         const indent = '  '.repeat(depth);
         const content = element.attributes?.content ? ` (${element.attributes.content})` : '';
         console.log(`${indent}${element.name}${content}`);
         
+        // Push children to stack in reverse order so they print in correct order
         if (element.children && element.children.length > 0) {
-            element.children.forEach(child => printTree(child, depth + 1));
+            for (let i = element.children.length - 1; i >= 0; i--) {
+                stack.push({
+                    element: element.children[i],
+                    depth: depth + 1
+                });
+            }
         }
     }
-    
-    printTree(ast.root);
+
     console.log("-------------------\n");
     
     // Add basic assertions to verify the structure
