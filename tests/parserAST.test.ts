@@ -20,22 +20,14 @@ test("parserAST", () => {
     `;
     const ast = parser.parse(vreactCodeNoStrip)
     
-    // Convert the full tree to a friendly format for output
-    const fullTree = {
-        root: ast.root,
-        childrenCount: ast.children.length,
-        allElements: [
-            ast.root,
-            ...ast.children
-        ]
-    };
-    
-    console.log("Full AST Tree:", JSON.stringify(fullTree, null, 2));
+    // Log the AST tree for debugging
+    console.log("Full AST Tree:", JSON.stringify(ast.astTree, null, 2));
     
     // Add detailed logging at all levels of the tree
     console.log("\n--- AST Hierarchy ---");
     
     // Use a stack to traverse the tree iteratively
+    // TODO: Work on the compiler and use this type...
     const stack: Array<{element: VEACTagElement, depth: number}> = [{
         element: ast.root,
         depth: 0
