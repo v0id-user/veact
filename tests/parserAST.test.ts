@@ -6,7 +6,12 @@ test("parserAST", () => {
         Index {
             (
             [div] 
+                Hey
                 [h1]Hello World[/h1]
+                [h1]This is veact[/h1]
+                [div] 
+                    [h1]Hello World nested[/h1]
+                [/div]
             [/div]
             )
         }
