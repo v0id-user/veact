@@ -1,5 +1,5 @@
 import VSXCSTParser from "@/veact/parser/cst";
-import type { CstNode } from "chevrotain";
+import type { CstNode, IToken } from "chevrotain";
 import { cstToAstNode } from "./simplifier";
 
 const $ = new VSXCSTParser()
@@ -13,14 +13,14 @@ type FunctionContext = {
 
 
 // CST
-export interface VSXTagOpen extends CstNode {
+export interface VSXTagOpen extends IToken {
 }
 
 export interface VSXTagClose extends VSXTagOpen {}
 
 export interface VSXText extends VSXTagOpen {}
 
-export interface VSXContent extends CstNode {
+export interface VSXContent extends IToken {
     name: string;
     children: {
         VSXText?: VSXText[];
@@ -78,15 +78,9 @@ class VSXVisitor extends BaseVisitor {
     }
 
     tag(ctx: FunctionContext) {
-        var root = ctx as unknown as Tag;
-        // Creating the ATX
-
-        console.log("Root Tag:", JSON.stringify(root, null, 2))
-        // for (const child of root.content) {
-        //     if(child.children?.tag?.[0]?.children?.VSXTagClose){
-        //         console.log("TagClose:", child.children.tag[0].children.VSXTagClose)
-        //     }
-        // }
+        const root = ctx as unknown as Tag;
+        console.log("Visited <tag> rule ctx:", JSON.stringify(root, null, 2));
+        return cstToAstNode(root);
     }
 }
 
