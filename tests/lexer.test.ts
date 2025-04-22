@@ -1,4 +1,4 @@
-import vreactLexer from "@/parser/lexer"
+import vreactLexer from "@/veact/parser/lexer"
 import { strip } from "@/utils/strip"
 import { test } from "bun:test"
 

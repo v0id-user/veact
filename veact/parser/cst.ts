@@ -1,9 +1,19 @@
-import { CstParser  } from "chevrotain";
-import { tokens, FunctionName, LCurly, RCurly, LParen, RParen, VEXTagOpen, VEXTagClose, VEXText } from "./tokens";
+import { CstParser } from "chevrotain";
+import {
+    tokens,
+    FunctionName,
+    LCurly,
+    RCurly,
+    LParen,
+    RParen,
+    VSXTagOpen,
+    VSXTagClose,
+    VSXText
+} from "./tokens";
 
-class VEXParser extends CstParser  {
+class VSXCSTParser extends CstParser {
 
-    // Declare all your rules as properties so typescript knows about them
+    // Declare all rules as properties so typescript knows about them
     public function: any;
     public functionBody: any;
     public content: any;
@@ -13,7 +23,7 @@ class VEXParser extends CstParser  {
         super(tokens)
 
         const $ = this;
-        
+
         // Main function rule
         $.RULE("function", () => {
             $.CONSUME(FunctionName);
@@ -34,23 +44,23 @@ class VEXParser extends CstParser  {
             $.MANY(() => {
                 $.OR([
                     { ALT: () => $.SUBRULE($.tag) },
-                    { ALT: () => $.CONSUME(VEXText) }
+                    { ALT: () => $.CONSUME(VSXText) }
                 ]);
             });
         });
 
         // Tag structure
         $.RULE("tag", () => {
-            $.CONSUME(VEXTagOpen);
+            $.CONSUME(VSXTagOpen);
             $.OPTION(() => {
                 $.SUBRULE($.content);
             });
-            $.CONSUME(VEXTagClose);
+            $.CONSUME(VSXTagClose);
         });
 
-    
+
         this.performSelfAnalysis()
     }
 }
 
-export default VEXParser;
+export default VSXCSTParser;

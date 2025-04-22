@@ -14,12 +14,12 @@ export const LParen = createToken({ name: 'LParen', pattern: /\(/ });
 export const RParen = createToken({ name: 'RParen', pattern: /\)/ });
 
 // Vreact tokens
-export const VEXTagOpen = createToken({ name: 'VEXTagOpen', pattern: /\[[a-zA-Z0-9_]+\]/ });
-export const VEXText = createToken({
-    name: 'VEXText',
+export const VSXTagOpen = createToken({ name: 'VSXTagOpen', pattern: /\[[a-zA-Z0-9_]+\]/ });
+export const VSXText = createToken({
+    name: 'VSXText',
     pattern: /[^()[\]{}]+/
 });
-export const VEXTagClose = createToken({ name: 'VEXTagClose', pattern: /\[\/[a-zA-Z0-9_]+\]/ });
+export const VSXTagClose = createToken({ name: 'VSXTagClose', pattern: /\[\/[a-zA-Z0-9_]+\]/ });
 
 // The ordering matters here
 export const tokens = [
@@ -31,12 +31,12 @@ export const tokens = [
     LCurly,
         // Then parse opening parentheses
         LParen,
-            // Then parse vex tag open
-            VEXTagOpen,
-            // Then parse closing vex tag
-            VEXTagClose,
-            // Then parse vex tag content so it does not eat the closing tag
-            VEXText,
+            // Then parse VSX tag open
+            VSXTagOpen,
+            // Then parse closing VSX tag
+            VSXTagClose,
+            // Then parse VSX tag content so it does not eat the closing tag
+            VSXText,
         // Then parse closing parentheses
         RParen,
     // Then parse closing curly braces

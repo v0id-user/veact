@@ -1,0 +1,3 @@
+function compile(code: string) {
+    
+}

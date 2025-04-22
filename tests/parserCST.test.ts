@@ -1,10 +1,10 @@
-import VEXParser from "@/parser/grammer"
-import vreactLexer from "@/parser/lexer"
+import VSXCSTParser from "@/veact/parser/cst"
+import vreactLexer from "@/veact/parser/lexer"
 import { strip } from "@/utils/strip"
 import { test, expect } from "bun:test"
 
 test("testParser", () => {
-    const parser = new VEXParser()
+    const parserCST = new VSXCSTParser()
     const vreactCode = strip(`
         Index {
             (
@@ -17,10 +17,10 @@ test("testParser", () => {
 
     // Test full function parsing
     const tokens = vreactLexer.tokenize(vreactCode)
-    parser.input = tokens.tokens
-    const functionCst = parser.function()
+    parserCST.input = tokens.tokens
+    const functionCst = parserCST.function()
     expect(functionCst).toBeDefined()
-    expect(parser.errors.length).toBeLessThanOrEqual(0)
+    expect(parserCST.errors.length).toBeLessThanOrEqual(0)
     
     // Test function body parsing
     const bodyCode = strip(`
@@ -31,10 +31,10 @@ test("testParser", () => {
         )
     `)
     const bodyTokens = vreactLexer.tokenize(bodyCode)
-    parser.input = bodyTokens.tokens
-    const functionBodyCst = parser.functionBody()
+    parserCST.input = bodyTokens.tokens
+    const functionBodyCst = parserCST.functionBody()
     expect(functionBodyCst).toBeDefined()
-    expect(parser.errors.length).toBeLessThanOrEqual(0)
+    expect(parserCST.errors.length).toBeLessThanOrEqual(0)
 
     // Test content parsing
     const contentCode = strip(`
@@ -43,8 +43,12 @@ test("testParser", () => {
         [/div]
     `)
     const contentTokens = vreactLexer.tokenize(contentCode)
-    parser.input = contentTokens.tokens
-    const contentCst = parser.content()
+    parserCST.input = contentTokens.tokens
+    const contentCst = parserCST.content()
     expect(contentCst).toBeDefined()
-    expect(parser.errors.length).toBeLessThanOrEqual(0)
+    expect(parserCST.errors.length).toBeLessThanOrEqual(0)
+
+    console.log(functionCst)
+    console.log(functionBodyCst)
+    console.log(contentCst)
 })
