@@ -79,7 +79,7 @@ class VSXVisitor extends BaseVisitor {
 
     tag(ctx: FunctionContext) {
         const root = ctx as unknown as Tag;
-        console.log("Visited <tag> rule ctx:", JSON.stringify(root, null, 2));
+        // console.log("Visited <tag> rule ctx:", JSON.stringify(root, null, 2));
         return cstToAstNode(root);
     }
 }

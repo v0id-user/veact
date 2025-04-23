@@ -23,7 +23,6 @@ test("parserAST", () => {
     // Log the AST tree for debugging
     console.log("Full AST Tree:", JSON.stringify(ast.astTree, null, 2));
     
-    // Add detailed logging at all levels of the tree
     console.log("\n--- AST Hierarchy ---");
     
     // Use a stack to traverse the tree iteratively
