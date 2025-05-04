@@ -53,11 +53,6 @@ export interface VSXNode {
     attributes?: Record<string, string>;
 }
 
-interface VSXASTTree {
-    root: VSXNode;
-    children: Set<VSXNode>;
-}
-
 class VSXVisitor extends BaseVisitor {
     constructor() {
         super()
