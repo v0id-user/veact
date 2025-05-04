@@ -25,7 +25,11 @@ function generateHtml(element: VEACTagElement, depth: number): string {
     // Build HTML attributes string (excluding content)
     const attributeString = Object.entries(attributes)
         .filter(([key]) => key !== 'content')
-        .map(([key, value]) => ` ${key}="${value}"`)
+        .map(([key, value]) => {
+            // Clean attribute value (remove quotes if present)
+            const cleanValue = value.toString().replace(/^"(.*)"$/, '$1');
+            return ` ${key}="${cleanValue}"`;
+        })
         .join('');
     
     // Start tag
@@ -37,7 +41,7 @@ function generateHtml(element: VEACTagElement, depth: number): string {
     // Add content if it exists
     if (attributes.content) {
         // Remove quotes from content
-        const content = attributes.content.replace(/^"(.*)"$/, '$1');
+        const content = attributes.content.toString().replace(/^"(.*)"$/, '$1');
         html += `\n${indent}  ${content}`;
         needNewline = true;
     }

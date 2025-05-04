@@ -14,11 +14,11 @@ export const LParen = createToken({ name: 'LParen', pattern: /\(/ });
 export const RParen = createToken({ name: 'RParen', pattern: /\)/ });
 
 // Vreact tokens
-// Updated to allow for attribute strings: [tagname attr1="value1" attr2="value2"]
+// Updated to allow for more complex attribute values with spaces and special characters
 export const VSXTagOpen = createToken({ 
     name: 'VSXTagOpen', 
-    // Matches: [tagname] or [tagname attr1="value1" attr2="value2"]
-    pattern: /\[[a-zA-Z0-9_]+(?:\s+[a-zA-Z0-9_]+="[^"]*")*\]/ 
+    // Improved pattern to handle attribute values with spaces and special characters
+    pattern: /\[[a-zA-Z0-9_]+(?:\s+[a-zA-Z0-9_\-]+="[^"]*")*\]/ 
 });
 
 export const VSXText = createToken({

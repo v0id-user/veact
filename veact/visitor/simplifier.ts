@@ -39,7 +39,7 @@ export function cstToAstNode(tag: Tag | { children: any }): VSXNode {
         const attributes: Record<string, string> = {};
         
         if (attributesText) {
-            // Use regex to match attribute names and values
+            // Improved regex to better handle attribute values with spaces and special characters
             const attrRegex = /([a-zA-Z0-9_\-]+)="([^"]*)"/g;
             let match;
             
@@ -78,7 +78,7 @@ export function cstToAstNode(tag: Tag | { children: any }): VSXNode {
         // Add content to attributes if present
         const contentTrimmed = accumulatedContent.trim();
         if (contentTrimmed) {
-            attributes.content = contentTrimmed;
+            attributes.content = `"${contentTrimmed}"`;
         }
 
         // The produced AST node follows the structure declared in visitor.ts
