@@ -107,12 +107,5 @@ export default class VSXASTParser {
 
         return element;
     }
-
-    #createTagElement(node: any): import("@/veact/types/elements").VEACTagElement {
-        return {
-            name: node.tag ?? "unknown",
-            type: "tag"
-        };
-    }
 }
 
