@@ -1,22 +1,67 @@
 import VSXASTParser from "@/veact/parser/ast";
 import type { VEACTagElement } from "@/veact/types/elements";
 
-function compile(vex: string) {
+export function compileVsx(vsx: string) {
     const parser = new VSXASTParser();
-    const ast = parser.parse(vex)
-    const stack: Array<{element: VEACTagElement, depth: number}> = [{
-        element: ast.root,
-        depth: 0
-    }];
+    const ast = parser.parse(vsx);
+    
+    // Generate HTML using recursive approach
+    let htmlOutput = generateHtml(ast.root, 0);
+    
+    // Print the HTML to console
+    console.log("--- Generated HTML ---");
+    console.log(htmlOutput);
+    console.log("-----------------------------");
+    
+    return htmlOutput;
+}
 
-    while (stack.length > 0) {
-        // TODO: Then transfer the javascript hooks to scripts and inject them in the DOM
-        // Transfer Veact elements to HTML elements and spit out the result
-
-        const {element, depth} = stack.pop()!;
-        const indent = '  '.repeat(depth);
-        const content = element.attributes?.content ? ` (${element.attributes.content})` : '';
-        console.log(`${indent}${element.name}${content}`);
-        
+// Helper function to recursively generate HTML
+function generateHtml(element: VEACTagElement, depth: number): string {
+    const indent = '  '.repeat(depth);
+    const tagName = element.name;
+    const attributes = element.attributes || {};
+    
+    // Build HTML attributes string (excluding content)
+    const attributeString = Object.entries(attributes)
+        .filter(([key]) => key !== 'content')
+        .map(([key, value]) => ` ${key}="${value}"`)
+        .join('');
+    
+    // Start tag
+    let html = `${indent}<${tagName}${attributeString}>`;
+    
+    // Track if we need a newline before closing tag
+    let needNewline = false;
+    
+    // Add content if it exists
+    if (attributes.content) {
+        // Remove quotes from content
+        const content = attributes.content.replace(/^"(.*)"$/, '$1');
+        html += `\n${indent}  ${content}`;
+        needNewline = true;
     }
+    
+    // Process children
+    if (element.children && element.children.length > 0) {
+        needNewline = true;
+        html += '\n';
+        
+        // Generate HTML for each child
+        for (const child of element.children) {
+            html += generateHtml(child, depth + 1);
+        }
+    }
+    
+    // Close tag (with proper indentation if needed)
+    if (needNewline) {
+        html += `\n${indent}</${tagName}>\n`;
+    } else {
+        html += `</${tagName}>\n`;
+    }
+    
+    // Log the conversion for visualization
+    console.log(`${indent}${tagName} -> <${tagName}${attributeString}>`);
+    
+    return html;
 }

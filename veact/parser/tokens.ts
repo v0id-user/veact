@@ -14,11 +14,18 @@ export const LParen = createToken({ name: 'LParen', pattern: /\(/ });
 export const RParen = createToken({ name: 'RParen', pattern: /\)/ });
 
 // Vreact tokens
-export const VSXTagOpen = createToken({ name: 'VSXTagOpen', pattern: /\[[a-zA-Z0-9_]+\]/ });
+// Updated to allow for attribute strings: [tagname attr1="value1" attr2="value2"]
+export const VSXTagOpen = createToken({ 
+    name: 'VSXTagOpen', 
+    // Matches: [tagname] or [tagname attr1="value1" attr2="value2"]
+    pattern: /\[[a-zA-Z0-9_]+(?:\s+[a-zA-Z0-9_]+="[^"]*")*\]/ 
+});
+
 export const VSXText = createToken({
     name: 'VSXText',
     pattern: /[^()[\]{}]+/
 });
+
 export const VSXTagClose = createToken({ name: 'VSXTagClose', pattern: /\[\/[a-zA-Z0-9_]+\]/ });
 
 // The ordering matters here

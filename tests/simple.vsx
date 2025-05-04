@@ -2,8 +2,8 @@ Index {
     (
         [div]
             [h1]
-                Hello World! from Veact!
+                "Hello"
             [/h1]
         [/div]
     )
-}
+} 

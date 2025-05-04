@@ -1,0 +1,12 @@
+Index {
+    (
+        [div class="container" id="main"]
+            [h1 class="title" style="color: blue;"]
+                "Hello World with Attributes"
+            [/h1]
+            [p class="description" data-info="test"]
+                "This is a paragraph with attributes"
+            [/p]
+        [/div]
+    )
+} 

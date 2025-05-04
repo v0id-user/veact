@@ -50,6 +50,7 @@ export interface VSXNode {
     content: string;
     tag: string;
     children: VSXNode[];
+    attributes?: Record<string, string>;
 }
 
 interface VSXASTTree {
@@ -64,23 +65,56 @@ class VSXVisitor extends BaseVisitor {
     }
 
     function(ctx: FunctionContext) {
+        console.log("Function context:", JSON.stringify(ctx, null, 2));
         return this.visit(ctx.functionBody)
     }
 
     functionBody(ctx: FunctionContext) {
+        console.log("Function body context:", JSON.stringify(ctx, null, 2));
         // TODO: Here can be some Javascript hooks to be parsed inside the visitor
         return this.visit(ctx.content)
     }
 
     content(ctx: FunctionContext) {
-        // Here we parse vreact tags or text
-        return this.visit(ctx.tag)
+        console.log("Content context:", JSON.stringify(ctx, null, 2));
+        
+        const contentCtx = ctx as unknown as { 
+            tag?: Array<any>;
+            VSXText?: Array<{ image: string }>;
+        };
+        
+        // Check if there's a tag 
+        if (contentCtx.tag && contentCtx.tag.length > 0) {
+            return this.visit(contentCtx.tag[0]);
+        }
+        
+        // If no direct tag, extract text content
+        if (contentCtx.VSXText && contentCtx.VSXText.length > 0) {
+            return {
+                type: "text",
+                content: contentCtx.VSXText.map(t => t.image).join(""),
+                tag: "text",
+                children: []
+            };
+        }
+        
+        // Return an empty node if no content
+        return {
+            type: "tag",
+            content: "",
+            tag: "unknown",
+            children: []
+        };
     }
 
     tag(ctx: FunctionContext) {
         const root = ctx as unknown as Tag;
-        // console.log("Visited <tag> rule ctx:", JSON.stringify(root, null, 2));
-        return cstToAstNode(root);
+        // Debug what the visitor receives
+        console.log("Tag ctx:", JSON.stringify(root, null, 2));
+        const astNode = cstToAstNode(root);
+        // Debug what the visitor returns
+        console.log("AST Node:", JSON.stringify(astNode, null, 2));
+        return astNode;
     }
 }
 
