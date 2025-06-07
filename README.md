@@ -2,10 +2,6 @@
 
 A lightweight, experimental implementation of a React-like library. Veact (Virtual DOM + React) is a mini-version of React designed for learning purposes and experimentation.
 
-## 🚧 Status
-
-**Under Development**: This project is still in the early stages and is being developed.
-
 ## 🌟 Features
 
 - Custom JSX-like syntax (`.vsx` files)
@@ -72,6 +68,11 @@ This project is inspired by React's architecture and is recommended for those wh
 - Component rendering and reconciliation
 - JSX compilation
 - Basic parser/compiler implementation
+
+## 🚧 Status
+
+**Under Development**: This project is still in the early stages and is being developed.
+
 
 ## 📄 License
 
