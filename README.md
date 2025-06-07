@@ -4,7 +4,7 @@ A lightweight, experimental implementation of a React-like library. Veact (Virtu
 
 ## 🚧 Status
 
-**Under Development**: This project is still in the early stages and is being actively developed.
+**Under Development**: This project is still in the early stages and is being developed.
 
 ## 🌟 Features
 
